@@ -1,0 +1,32 @@
+spring:
+  kafka:
+    consumer:
+      group-id: tpd-loggers
+      auto-offset-reset: earliest
+    # change this property if you are using your own
+    # Kafka cluster or your Docker IP is different
+    bootstrap-servers: localhost:9092
+
+tpd:
+  topic-name: advice-topic
+  messages-per-request: 10
+
+
+springwolf:
+  docket:
+    base-package: io.tpd.kafkaexample
+
+    info:
+      title: Kafka Example
+      version: 1.0.0
+
+    servers:
+      kafka:
+        protocol: kafka
+        url: localhost:9092
+
+logging:
+  level:
+    #root: debug
+    com.asyncapi: debug
+    io.github.springwolf: debug
