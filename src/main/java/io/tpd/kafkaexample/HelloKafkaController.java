@@ -1,5 +1,8 @@
 package io.tpd.kafkaexample;
 
+import io.github.stavshamir.springwolf.asyncapi.scanners.channels.operationdata.annotation.AsyncListener;
+import io.github.stavshamir.springwolf.asyncapi.scanners.channels.operationdata.annotation.AsyncOperation;
+import io.github.stavshamir.springwolf.asyncapi.scanners.channels.operationdata.annotation.KafkaAsyncOperationBinding;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.Headers;
 import org.slf4j.Logger;
@@ -50,6 +53,10 @@ public class HelloKafkaController {
 
     @KafkaListener(topics = "advice-topic", clientIdPrefix = "json",
             containerFactory = "kafkaListenerContainerFactory")
+    @AsyncListener(operation = @AsyncOperation(
+            channelName = "advice-topic"
+    ))
+    @KafkaAsyncOperationBinding
     public void listenAsObject(ConsumerRecord<String, PracticalAdvice> cr,
                                @Payload PracticalAdvice payload) {
         logger.info("Logger 1 [JSON] received key {}: Type [{}] | Payload: {} | Record: {}", cr.key(),
@@ -59,6 +66,10 @@ public class HelloKafkaController {
 
     @KafkaListener(topics = "advice-topic", clientIdPrefix = "string",
             containerFactory = "kafkaListenerStringContainerFactory")
+    @AsyncListener(operation = @AsyncOperation(
+            channelName = "advice-topic"
+    ))
+    @KafkaAsyncOperationBinding
     public void listenasString(ConsumerRecord<String, String> cr,
                                @Payload String payload) {
         logger.info("Logger 2 [String] received key {}: Type [{}] | Payload: {} | Record: {}", cr.key(),
@@ -68,6 +79,10 @@ public class HelloKafkaController {
 
     @KafkaListener(topics = "advice-topic", clientIdPrefix = "bytearray",
             containerFactory = "kafkaListenerByteArrayContainerFactory")
+    @AsyncListener(operation = @AsyncOperation(
+            channelName = "advice-topic"
+    ))
+    @KafkaAsyncOperationBinding
     public void listenAsByteArray(ConsumerRecord<String, byte[]> cr,
                                   @Payload byte[] payload) {
         logger.info("Logger 3 [ByteArray] received key {}: Type [{}] | Payload: {} | Record: {}", cr.key(),
